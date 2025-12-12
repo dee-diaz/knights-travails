@@ -30,6 +30,18 @@ class Graph {
       throw new Error("One or both vertices do not exist.");
     }
   }
+
+  printGraph() {
+    const keys = this.adjList.keys();
+    for (const i of keys) {
+      const values = this.adjList.get(i);
+      let output = "";
+      for (const j of values) {
+        output += j + " ";
+      }
+      console.log(i + " -> " + output);
+    }
+  }
 }
 
 export default Graph;
