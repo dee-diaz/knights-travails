@@ -65,15 +65,18 @@ function createEdges() {
 }
 
 function knightMoves(start, end) {
-  const queue = [start];
-  const visited = new Set([start]);
+  const startStr = start.join(",");
+  const endStr = end.join(",");
+  
+  const queue = [startStr];
+  const visited = new Set([startStr]);
   const prev = new Map();
 
   while (queue.length > 0) {
-    const current = queue.shift(); // dequeue
+    const current = queue.shift();
 
-    if (current === end) {
-      return reconstructPath(prev, start, end);
+    if (current === endStr) {
+      return reconstructPath(prev, startStr, endStr);
     }
 
     const neighbors = graph.getNeighbors(current);
@@ -81,7 +84,7 @@ function knightMoves(start, end) {
       if (!visited.has(neighbor)) {
         prev.set(neighbor, current);
         visited.add(neighbor);
-        queue.push(neighbor); // enqueue
+        queue.push(neighbor);
       }
     });
   }
@@ -109,5 +112,3 @@ function initGraph() {
 }
 
 initGraph();
-
-console.log(knightMoves("0,0", "3,3"));
