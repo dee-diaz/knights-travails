@@ -64,6 +64,45 @@ function createEdges() {
   });
 }
 
+function knightMoves(start, end) {
+  const queue = [start];
+  const visited = new Set([start]);
+  const prev = new Map();
+
+  while (queue.length > 0) {
+    const current = queue.shift(); // dequeue
+
+    if (current === end) {
+      return reconstructPath(prev, start, end);
+    }
+
+    const neighbors = graph.getNeighbors(current);
+    neighbors.forEach((neighbor) => {
+      if (!visited.has(neighbor)) {
+        prev.set(neighbor, current);
+        visited.add(neighbor);
+        queue.push(neighbor); // enqueue
+      }
+    });
+  }
+}
+
+function reconstructPath(prev, start, end) {
+  const path = [];
+  let current = end;
+
+  while (current !== start) {
+    path.push(current);
+    current = prev.get(current);
+  }
+
+  path.push(start);
+  return {
+    moves: path.length,
+    path: path.reverse(),
+  };
+}
+
 function initGraph() {
   vertices.forEach((vertex) => graph.addVertex(vertex));
   createEdges();
@@ -71,4 +110,4 @@ function initGraph() {
 
 initGraph();
 
-graph.printGraph();
+console.log(knightMoves("0,0", "3,3"));
